@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Game</title>
+    <script defer src="main.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="startScreen" id="screen">
+            <div id="input-form">
+                <form id="form">
+                    <label for="name">Фрукты\Шарики</label><br>
+                    <input type="text" placeholder="Enter ur name!" id="place">
+                    <input type="button" id="start-game" value="Start!" disabled>
+                </form>
+            </div>
+        </div>
+        <div class="gameScreen">
+            <div id="player-info">
+                <p id="best-player"></p>
+                <p id="timer">01:00</p>
+                <button id="restart">restart</button>
+                <p>Current player: </p>
+                <p id="playerName"></p>
+                <p>Player score: <span id="playerScore"> points</span></p>
+            </div>
+
+            <div class="gameField">
+
+            </div>
+
+        </div>
+        <div class="resultScreen">
+                <p id="end-game">Game over, </p>
+                <button id="restartRes">restart</button>
+                <div id="leaderboard">
+                    <ol id="leaderboard-list">
+                    </ol>
+                </div>
+
+        </div>
+    </div>
+
+
+</body>
+
+</html>

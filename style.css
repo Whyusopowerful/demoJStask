@@ -1,0 +1,115 @@
+*{
+    margin: 0 auto;
+    padding: 0;
+}
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+}
+.startScreen{
+    display: flex;
+    width: 1000px;
+    height: 500px;
+    background-color: cadetblue;
+    justify-content: center;
+}
+
+.gameScreen{
+    /* display: flex; */
+    flex-direction: column;
+    width: 1000px;
+    height: 500px;
+    display: none;
+    background-color: beige;
+}
+
+.resultScreen{
+    /* display: flex; */
+    flex-direction: column;
+    width: 1000px;
+    height: 500px;
+    display: none;
+    background-color: thistle;
+}
+
+#input-form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ball{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.lemon{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: yellow;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.apple{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: orangered;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.plum{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: blueviolet;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.pear{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: greenyellow;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.orange{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: orange;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.gameField{
+    width: 100%;
+    margin: auto;
+    height: 450px;
+    margin-top: 50px;
+}
+
+#player-info{
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    width: 30%;
+    height: 50px;
+
+}
+
+
+
