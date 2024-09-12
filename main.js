@@ -1,15 +1,16 @@
-
 //Непосредственно логика программы
 function goField(){
-    let playerName = place.value;
+    //set the player name
+    const playerName = document.querySelector('#place').value;
+    document.querySelector('#playerName').textContent = playerName;
 
+    //TOGGLE
     startScreen.style.display = 'none';
     gameScreen.style.display = 'flex';
-
-    document.querySelector('#playerName').textContent = playerName;
-    
+    //add the gamefield
     field.style.display = 'flex';
 
+    
     if(bestPlayer.bestPoints >= 5){
         bestPlayerStats.textContent = `Best player: ${bestPlayer.bestName} ${bestPlayer.bestPoints} points`;
     }
@@ -25,13 +26,7 @@ function goField(){
             goResult();
         }
     },1000)
-    spawnItems = setInterval(() =>{//придумать, как доделать логику отключения выполнения функции
-        // spawn();
-        for(let i = 0; i<4; i++){
-            spawnFruits();
-        }
-        
-    },1000);   
+    spawnItems = setInterval(() =>spawnFruits(),1000);   
 }
 
 function goMenu(){
@@ -60,7 +55,7 @@ function goResult(){
 }
 
 function saveScore(){
-    let currentPlayerName = place.value;
+    let currentPlayerName = playerName.value;
 
     stats.push(points);
     players.push(currentPlayerName);
@@ -181,23 +176,17 @@ function getRandom(min,max){
 
 
 function spawnFruits(){
-
     let fruitsPull = [];
-    let fruit = document.createElement('div');
+    let fruit;
 
+    //creating needed amount of elements
     while(fruitsPull.length<4){
-        //creating 
-        
         let current = getRandom(0,4);
-        fruit.className = fruits[current];
-        fruit.setAttribute('value', cost[current]); 
-
-        //positioning and push element into gamefield
-        fruit.style.top= getRandom(300,680)+'px';
-        fruit.style.left = getRandom(480,1400)+'px';
-        // field.append(fruit);
-        fruitsPull.push(fruit);
+        fruitsPull.push(setFruit(current, fruit));
     }
+
+    //add elements to gameField
+    for(el of fruitsPull) field.append(el);
     
 
     //creating a trap
@@ -216,20 +205,45 @@ function spawnFruits(){
     };
 
 
-    fruit.addEventListener('click', (ev) =>{
-        ev.target.remove();
-        points+=parseInt(ev.target.getAttribute('value'));
-        playerScore.textContent = points;
-    });
+    // fruit.addEventListener('click', (ev) =>{
+    //     ev.target.remove();
+    //     points+=parseInt(ev.target.getAttribute('value'));
+    //     playerScore.textContent = points;
+    // });
 
-    switch(current){
-        case 2: setInterval(()=>fruit.remove(), 1500); break;
-        default: setInterval(()=>{fruit.remove(); trap.remove()}, 1000); break;
-    }
+    
     
 }
 
+function setFruit(current, fruit){
 
+    //creating 
+    fruit = document.createElement('div');
+    fruit.className = fruits[current];
+    fruit.value = cost[current];
+
+    //positioning 
+    fruit.style.top= getRandom(300,680)+'px';
+    fruit.style.left = getRandom(480,1400)+'px';
+
+    //set delete time
+    switch(current){
+        case 2: setInterval(()=>fruit.remove(), 1500); break;
+        default: setInterval(()=>fruit.remove(), 1000); break;
+    }
+
+    //fruit logic
+    fruit.onclick = () => {
+        fruit.remove();
+        updateScore(fruit.value);
+    }
+
+    return fruit;
+}
+
+function updateScore(count){
+    playerScore.textContent = parseInt(playerScore.textContent)+count; 
+}
 
 let points = 0;
 let fruits = ['lemon', 'apple', 'plum', 'orange', 'pear'];
@@ -253,7 +267,6 @@ const startGame = document.querySelector('#start-game');
 
 const field = document.querySelector('.gameField');
 const playerScore = document.querySelector('#playerScore');
-
 const playAgain = document.querySelector('#restartRes');
 const clearButton = document.querySelector('#clear');
 const timer = document.querySelector('#timer');
@@ -265,17 +278,15 @@ playerScore.textContent = points;
 //Навешиваются на кнопки, чтобы вызывать методы.
 
 
-//*****
-const place = document.querySelector('#place');
-
-place.addEventListener('input', ()=>{
-    startGame.disabled = (place.value ==='');
+//checking fill name
+document.querySelector('#place').addEventListener('input', ()=>{
+    startGame.disabled = (playerName.value ==='');
     startGame.onclick = goField;
 })
 
 document.querySelector('#restart').onclick = () =>{
     goMenu();
-    place.value = '';
+    document.querySelector('#place').value = '';
     startGame.disabled = true;
 };
 //******
