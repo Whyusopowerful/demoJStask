@@ -1,8 +1,7 @@
 //Непосредственно логика программы
 function goField(){
     //set the player name
-    const playerName = document.querySelector('#place').value;
-    document.querySelector('#playerName').textContent = playerName;
+    
 
     //TOGGLE
     startScreen.style.display = 'none';
@@ -187,16 +186,21 @@ function spawnFruits(){
 
     //add elements to gameField
     for(el of fruitsPull) field.append(el);
-    
 
+    //add trap to gameField
+    field.append(createTrap());
+
+}
+
+function createTrap(){
     //creating a trap
     let trap = document.createElement('div');
     trap.className = 'ball';
 
-    //positioning and push trap into gamefield
+    //positioning trap and set the lifetime
     trap.style.top= getRandom(300,680)+'px';
     trap.style.left = getRandom(480,1400)+'px';
-    field.append(trap);
+    setInterval(() => trap.remove(), 1000);
     
     //trap logic
     trap.onclick = () =>{
@@ -204,19 +208,10 @@ function spawnFruits(){
         goResult();
     };
 
-
-    // fruit.addEventListener('click', (ev) =>{
-    //     ev.target.remove();
-    //     points+=parseInt(ev.target.getAttribute('value'));
-    //     playerScore.textContent = points;
-    // });
-
-    
-    
+    return trap;
 }
 
 function setFruit(current, fruit){
-
     //creating 
     fruit = document.createElement('div');
     fruit.className = fruits[current];
@@ -264,7 +259,7 @@ const startScreen = document.querySelector('.startScreen');
 const gameScreen = document.querySelector('.gameScreen');
 const resultScreen = document.querySelector('.resultScreen');
 const startGame = document.querySelector('#start-game');
-
+const playerName = document.querySelector('#playerName');
 const field = document.querySelector('.gameField');
 const playerScore = document.querySelector('#playerScore');
 const playAgain = document.querySelector('#restartRes');
@@ -279,14 +274,14 @@ playerScore.textContent = points;
 
 
 //checking fill name
-document.querySelector('#place').addEventListener('input', ()=>{
+document.querySelector('#playerName').addEventListener('input', ()=>{
     startGame.disabled = (playerName.value ==='');
-    startGame.onclick = goField;
+    startGame.onclick = ()=> goField();
 })
 
 document.querySelector('#restart').onclick = () =>{
     goMenu();
-    document.querySelector('#place').value = '';
+    document.querySelector('#playerName').value = '';
     startGame.disabled = true;
 };
 //******
