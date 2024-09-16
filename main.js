@@ -1,33 +1,55 @@
 //Непосредственно логика программы
 function goField(){
     //set the player name
-    
-
+    document.querySelectorAll('.current-player').forEach(name => name.textContent = playerName.value);
     //TOGGLE
     startScreen.style.display = 'none';
     gameScreen.style.display = 'flex';
     //add the gamefield
     field.style.display = 'flex';
 
-    
     // if(bestPlayer.bestPoints >= 5){
     //     bestPlayerStats.textContent = `Best player: ${bestPlayer.bestName} ${bestPlayer.bestPoints} points`;
     // }
 
-    
-
     console.log('Game starts! Goodluck '+playerName.value);
 
+    //logic of timer
+    setTimeout(()=>{
+        goResult();
+    },5*1000);
+    countdown(5);
 
-    playTime = setInterval(() =>{
-        countdown();
-        if(timeLeft === -2){
-            goResult();
-        }
-    },1000)
-    spawnItems = setInterval(() =>spawnFruits(),1000);   
+    // playTime = setInterval(() =>{
+    //     countdown();
+    //     if(timeLeft === -2){
+    //         goResult();
+    //     }
+    // },1000)
+    //spawnItems = setInterval(() =>spawnFruits(),1000);   
 }
-;
+
+function countdown(timeLeft){ //ЧИНИТЬ
+    
+    //calculate timeleft
+    const minutes = Math.floor(timeLeft/60);
+    let seconds = timeLeft % 60;
+    seconds = seconds < 10 ? "0"+seconds:seconds;
+
+    
+
+    //display timeleft
+    let timer = setInterval(()=>{
+        timeLeft--;
+        console.log(timeLeft);
+        if(timeLeft<=0) clearInterval(timer);
+        document.querySelector('#timer').textContent = timeLeft === 5 ? '01:00' : `0${minutes}:${seconds}`;
+        
+        console.log('itisme!');
+    },1000);
+    
+}
+
 function goMenu(){
     clearField();
     stopSpawn();
@@ -41,12 +63,9 @@ function goMenu(){
 }
 
 function goResult(){
-
     clearField();
     stopSpawn();
     clearTimer();
-    
-    
 
     resultScreen.style.display = 'flex';
     gameScreen.style.display = 'none';
@@ -126,17 +145,11 @@ function clearStats(){
 
 
 
-function countdown(){
-    const minutes = Math.floor(timeLeft/60);
-    let seconds = timeLeft % 60;
-    seconds = seconds < 10 ? "0"+seconds:seconds;
-    timer.textContent = `0${minutes}:${seconds}`
-    timeLeft--;
-}
+
 
 function clearTimer(){
     clearInterval(playTime);
-    timer.textContent = '01:00';
+    //timer.textContent = '01:00';
     timeLeft = 60;    
 }
 
@@ -243,7 +256,7 @@ function updateScore(count){
 let points = 0;
 let fruits = ['lemon', 'apple', 'plum', 'orange', 'pear'];
 let cost = [10, 10, 5, 15, 15 ];
-let timeLeft = 60;
+// let timeLeft = 5;
 let spawnItems;
 let playTime;
 let stats = [];
@@ -264,7 +277,7 @@ const field = document.querySelector('.gameField');
 const playerScore = document.querySelector('#playerScore');
 const playAgain = document.querySelector('#restartRes');
 const clearButton = document.querySelector('#clear');
-const timer = document.querySelector('#timer');
+//const timer = document.querySelector('#timer');
 const leaderboardList = document.querySelector('#leaderboard-list');
 const bestPlayerStats = document.querySelector('#best-player');
 playerScore.textContent = points;
@@ -277,7 +290,7 @@ playerScore.textContent = points;
 document.querySelector('#playerName').addEventListener('input', ()=>{
     startGame.disabled = (playerName.value ==='');
     startGame.onclick = ()=>{
-        document.querySelectorAll('.current-player').forEach(name => name.textContent = playerName.value);
+        
         goField();
     } 
 })
