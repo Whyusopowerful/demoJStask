@@ -10,13 +10,13 @@ function goField(){
     field.style.display = 'flex';
 
     
-    if(bestPlayer.bestPoints >= 5){
-        bestPlayerStats.textContent = `Best player: ${bestPlayer.bestName} ${bestPlayer.bestPoints} points`;
-    }
+    // if(bestPlayer.bestPoints >= 5){
+    //     bestPlayerStats.textContent = `Best player: ${bestPlayer.bestName} ${bestPlayer.bestPoints} points`;
+    // }
 
     
 
-    console.log('Game starts! Goodluck '+playerName);
+    console.log('Game starts! Goodluck '+playerName.value);
 
 
     playTime = setInterval(() =>{
@@ -27,7 +27,7 @@ function goField(){
     },1000)
     spawnItems = setInterval(() =>spawnFruits(),1000);   
 }
-
+;
 function goMenu(){
     clearField();
     stopSpawn();
@@ -276,7 +276,10 @@ playerScore.textContent = points;
 //checking fill name
 document.querySelector('#playerName').addEventListener('input', ()=>{
     startGame.disabled = (playerName.value ==='');
-    startGame.onclick = ()=> goField();
+    startGame.onclick = ()=>{
+        document.querySelectorAll('.current-player').forEach(name => name.textContent = playerName.value);
+        goField();
+    } 
 })
 
 document.querySelector('#restart').onclick = () =>{
