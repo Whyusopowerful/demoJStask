@@ -15,9 +15,7 @@ function goField(){
     console.log('Game starts! Goodluck '+playerName.value);
 
     //logic of timer
-    setTimeout(()=>{
-        goResult();
-    },5*1000);
+    
     countdown(5);
 
     // playTime = setInterval(() =>{
@@ -31,19 +29,21 @@ function goField(){
 
 function countdown(timeLeft){ //ЧИНИТЬ
     
-    //calculate timeleft
-    const minutes = Math.floor(timeLeft/60);
-    let seconds = timeLeft % 60;
-    seconds = seconds < 10 ? "0"+seconds:seconds;
+    
 
     
 
     //display timeleft
     let timer = setInterval(()=>{
-        timeLeft--;
+        //calculate timeleft
+    const minutes = Math.floor(timeLeft/60);
+    let seconds = timeLeft % 60;
+    seconds = seconds < 10 ? "0"+seconds:seconds;
+        
         console.log(timeLeft);
-        if(timeLeft<=0) clearInterval(timer);
+        if(timeLeft<=0){ clearInterval(timer); goResult();}
         document.querySelector('#timer').textContent = timeLeft === 5 ? '01:00' : `0${minutes}:${seconds}`;
+        timeLeft--;
         
         console.log('itisme!');
     },1000);
