@@ -12,48 +12,51 @@ function goField(){
     //     bestPlayerStats.textContent = `Best player: ${bestPlayer.bestName} ${bestPlayer.bestPoints} points`;
     // }
 
-    console.log('Game starts! Goodluck '+playerName.value);
+    console.log('Game starts! Good luck '+playerName.value);
 
-    //logic of timer
-    
-    countdown(5);
-
-    // playTime = setInterval(() =>{
-    //     countdown();
-    //     if(timeLeft === -2){
-    //         goResult();
-    //     }
-    // },1000)
-    //spawnItems = setInterval(() =>spawnFruits(),1000);   
+    //function that calls a spawnFruit function and counting the time
+    countdown();
 }
 
-function countdown(timeLeft){ //ЧИНИТЬ
-    
-    
-
-    
-
+function countdown(){
     //display timeleft
     let timer = setInterval(()=>{
+        console.log(timeLeft)
         //calculate timeleft
-    const minutes = Math.floor(timeLeft/60);
-    let seconds = timeLeft % 60;
-    seconds = seconds < 10 ? "0"+seconds:seconds;
-        
-        console.log(timeLeft);
-        if(timeLeft<=0){ clearInterval(timer); goResult();}
-        document.querySelector('#timer').textContent = timeLeft === 5 ? '01:00' : `0${minutes}:${seconds}`;
-        timeLeft--;
-        
-        console.log('itisme!');
+        const minutes = Math.floor(timeLeft/60);
+        let seconds = timeLeft % 60;
+        seconds = seconds < 10 ? "0"+seconds:seconds;
+        if(timeLeft > 0){
+            spawnFruits();
+        }
+        if(timeLeft<=0){
+            clearInterval(timer);
+            goResult();
+        }
+        document.querySelector('#timer').textContent = timeLeft === 60 ? '01:00' : `0${minutes}:${seconds}`;
+        timeLeft = timeLeft-1;
+
     },1000);
     
 }
 
+function spawnFruits(){
+    let fruitsPull = [];
+    //creating needed amount of elements
+    while(fruitsPull.length<4){
+        let fruit = document.createElement('div');
+        fruitsPull.push(setFruit(getRandom(0,4), fruit));
+    }
+
+    //add elements to gameField
+    for(el of fruitsPull) field.append(el);
+
+    //add trap to gameField
+    field.append(createTrap());
+}
+
 function goMenu(){
     clearField();
-    stopSpawn();
-    clearTimer();
     points = 0;
     playerScore.textContent = points;
     startScreen.style.display= 'flex';
@@ -63,9 +66,9 @@ function goMenu(){
 }
 
 function goResult(){
+    timeLeft = 0
     clearField();
-    stopSpawn();
-    clearTimer();
+
 
     resultScreen.style.display = 'flex';
     gameScreen.style.display = 'none';
@@ -144,66 +147,13 @@ function clearStats(){
 }
 
 
-
-
-
-function clearTimer(){
-    clearInterval(playTime);
-    //timer.textContent = '01:00';
-    timeLeft = 60;    
-}
-
-function stopSpawn(){
-    clearInterval(spawnItems);
-}
-
-
 function getRandom(min,max){
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-// function spawn(){
-//     let ball = document.createElement('div');
 
-//     ball.className = 'ball';
-
-//     ball.style.top = getRandom(300,680)+'px';
-//     ball.style.left = getRandom(480,1400)+'px';
-
-    
-//     field.append(ball);
-
-    
-//     ball.addEventListener('click', (ev) =>{
-//         ev.target.remove();
-//         goResult();
-//     })
-
-//     setInterval(() => ball.remove(),1000);
-    
-// }
-
-
-
-function spawnFruits(){
-    let fruitsPull = [];
-    let fruit;
-
-    //creating needed amount of elements
-    while(fruitsPull.length<4){
-        let current = getRandom(0,4);
-        fruitsPull.push(setFruit(current, fruit));
-    }
-
-    //add elements to gameField
-    for(el of fruitsPull) field.append(el);
-
-    //add trap to gameField
-    field.append(createTrap());
-
-}
 
 function createTrap(){
     //creating a trap
@@ -225,8 +175,11 @@ function createTrap(){
 }
 
 function setFruit(current, fruit){
+    //list of fruits
+    let fruits = ['lemon', 'apple', 'plum', 'orange', 'pear'];
+    let cost = [10, 10, 5, 15, 15 ];
     //creating 
-    fruit = document.createElement('div');
+    //fruit = document.createElement('div');
     fruit.className = fruits[current];
     fruit.value = cost[current];
 
@@ -254,14 +207,9 @@ function updateScore(count){
 }
 
 let points = 0;
-let fruits = ['lemon', 'apple', 'plum', 'orange', 'pear'];
-let cost = [10, 10, 5, 15, 15 ];
-// let timeLeft = 5;
-let spawnItems;
-let playTime;
 let stats = [];
 let players = [];
-
+let timeLeft = 60;
 let bestPlayer={};
 
 
